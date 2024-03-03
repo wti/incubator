@@ -61,7 +61,7 @@ if [ -d "$webDocs" ] ; then
     echo "verify overwrite of $webDocs/${webPath}"
   else
     cd "$sbDir"
-    cp -rf "$out" "$webDocs/${webPath}"
+    cp -rf "$web" "$webDocs/${webPath}"
     echo "cd  $webDocs/"
     echo " Verify on correct branch (web)"
     echo " do git commit and push, and (eventually) see "
