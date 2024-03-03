@@ -17,7 +17,7 @@ errMssg() {
 buildSwiftBook() {
 	which xcrun >/dev/null 2>&1 || return $(errMssg 31 No xcrun)
 	local -r ghUser="${1:-wti}"
-	local -r bsbOut="${FUNCTION[0]}.out"
+	local -r bsbOut="${FUNCNAME[0]}.out"
 	local -r sbDir="$HOME/git-apple/swift-book"
 	[ -d "$sbDir" ] || return $(errMssg 31 no $sbDir)
   local -r webPath=tspl
@@ -30,7 +30,7 @@ buildSwiftBook() {
     set -e
   	[ -n "${DEBUG}" ] && set -vx
   	local -r out="${bsbOut}.TSPL.doccarchive"
-  	local -r web="${bsbOut}.out.TSPL.html"
+  	local -r web="${bsbOut}.TSPL.html"
   	if [ -d "${out}" ] ; then
       errMssg "Adopting existing archive: $out"
     else 
