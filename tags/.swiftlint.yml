@@ -1,0 +1,105 @@
+# swiftlint rules and rule-configuration for lint and/or analyze mode.
+#
+# Rules are listed at the top and configured below along with the output (reporter).
+#
+# To list available rules: `swiftlint rules`
+# For rule configuration: https://realm.github.io/SwiftLint/rule-directory.html
+#
+# Warning: swiftlint fails without warning on syntax errors
+# and also warns verbosely (e.g., on minor duplication).
+
+# Change which rules apply by disabling/enabling defaults or by listing rules to run.
+
+# To disable rules that run by default:
+disabled_rules:
+  - closure_parameter_position # conflicts with swift-format
+  - file_length # disagree
+  - identifier_name # disagree: 1-letter names often are best
+  - large_tuple # disagree: often returning tuple as convenience
+  - nesting # disagree: ok to nest n=2+, esp. for typealiases
+  - opening_brace # conflicts with formatting?
+  - todo # prefer tracking TODO's in code to elsewhere
+  - trailing_comma # prefer, to avoid needless diffs
+  - type_name # Sometime good to have short names for structure-only types
+
+# To enable rules that do not run by default:
+opt_in_rules:
+  - comma_inheritance
+  - contains_over_first_not_nil
+  - convenience_type
+  - empty_count
+  - empty_collection_literal
+  - empty_string
+  - explicit_init
+  - fatal_error_message
+  - file_name_no_space
+  - flatmap_over_map_reduce
+  - identical_operands
+  - implicitly_unwrapped_optional
+  - last_where
+  - modifier_order
+  - multiline_arguments
+  - multiline_function_chains
+  - multiline_parameters
+  - number_separator
+  - operator_usage_whitespace
+  - prefer_self_type_over_type_of_self
+  - prefer_zero_over_explicit_init
+  - redundant_nil_coalescing
+  - redundant_self_in_closure
+  - return_value_from_void_function
+  - sorted_imports
+  - static_operator
+  - toggle_bool
+  - untyped_error_in_catch
+
+# Desired but extensive changes
+#  - prefer_self_in_static_references # 113 changes todo
+
+# Need to evaluate more
+#  - force_unwrapping # 50 changes to evaluate for clarity
+#  - discouraged_none_name # but used extensivel
+#  - function_default_parameter_at_end # conflict with API/override mirroring
+#  - superfluous_else # sometimes clearer
+
+# Not desired
+#  - direct_return # sometimes clearer, with return at end
+#  - period_spacing # applies to comments
+#  - implicit_return # sometimes clearer when multiple return's
+
+analyzer_rules: # rules run by `swiftlint analyze`
+  - typesafe_array_init
+  - unused_import
+
+# Paths to include. `--path` is ignored if present
+included: 
+  - Sources
+  - Tests
+
+# Paths to avoid. Overrides values in `included`
+#excluded: 
+#  - Source/ExcludedFolder
+#  - Source/ExcludedFile.swift
+#  - Source/*/ExcludedFile.swift # exclude files with a wildcard
+
+# If true, SwiftLint will not fail if no lintable files are found.
+allow_zero_lintable_files: false
+
+# Rule configuration
+
+cyclomatic_complexity:
+  ignores_case_statements: true
+
+line_length:
+  warning: 80
+  error: 90
+  ignores_comments: true
+  ignores_interpolated_strings: true
+  ignores_function_declarations: false # default: false
+
+# Output reporter configuration
+reporter: "xcode" 
+
+# Valid reporter types:
+# xcode, json, csv, checkstyle, codeclimate, junit, html, 
+# emoji, sonarqube, markdown, github-actions-logging, summary

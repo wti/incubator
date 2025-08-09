@@ -1,0 +1,12 @@
+.DS_Store
+/.build*
+/Packages
+/*.xcodeproj
+/*.doccbuild
+xcuserdata/
+.swiftpm/
+.vscode/
+/xunit-output.xml
+/Bird.AttributeDemo.mp4
+/bird
+
