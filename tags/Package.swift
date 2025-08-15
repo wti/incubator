@@ -13,27 +13,35 @@ let package = Package(
   products: [
     .library(name: tags, targets: ["tags"]),
     .library(name: tagDemo, targets: ["tagDemo"]),
-    .executable(name: main, targets: ["tagDemoMain"]),
+    //.executable(name: main, targets: ["tagDemoMain"]),
   ],
   dependencies: [
-    .package(
-      url: "https://github.com/ordo-one/\(benchPack)",
-      .upToNextMajor(from: "1.29.3")
-    )
+    .package(path: "../../Asserts")
   ],
   targets: [  // RUN: tagDemo
     .target(name: tags),
     .target(name: tagDemo, dependencies: ["tags"]),
-    .executableTarget(name: main, dependencies: ["tagDemo"]),
+    //.executableTarget(name: main, dependencies: ["tagDemo"]),
     .testTarget(
       name: "\(tags)Tests",
       dependencies: [
         .target(name: tags),
         .target(name: tagDemo),
+        .product(name: "XrayInXCTest", package: "Asserts"),
       ]
     ),
-    // TagSpeed Benchmark
-    // run with `swift package benchmark --target TagSpeed --format markdown`
+  ]
+)
+#if BENCHMARK
+  // TagSpeed Benchmark
+  package.dependencies +=
+    .package(
+      url: "https://github.com/ordo-one/\(benchPack)",
+      .upToNextMajor(from: "1.29.3")
+    )
+
+  // run with `swift package benchmark --target TagSpeed --format markdown`
+  package.targets +=
     .executableTarget(
       name: "TagSpeed",
       dependencies: [
@@ -45,6 +53,5 @@ let package = Package(
       plugins: [
         .plugin(name: "BenchmarkPlugin", package: benchPack)
       ]
-    ),
-  ]
-)
+    )
+#endif
