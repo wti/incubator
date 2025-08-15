@@ -1,7 +1,16 @@
 import tags
 
 public enum TagOps {
-  /// initialize then run ``TagRange/maskForTagInRange``
+  public typealias RangeTag = TagRange0
+  /// initialize then run ``RangeTag/maskForTagInRange``
+  ///
+  /// Limitations:
+  /// - currently only repeating 2 kinds of hit or miss for same parent range
+  ///
+  /// TODO
+  /// - multiple parent tag ranges with multiple child tag-ranges
+  /// - Run other queries in parallel, in same loop
+  /// - see if possible to use scratch area
   public struct MaskForTag {
     public static let (hit, miss) = (UInt64.max, UInt64.min)
     public static let parent = TagDatum(tag: 1, range: 10...30)
@@ -17,7 +26,7 @@ public enum TagOps {
     }
 
     /// Render UInt64 as "H" (hit) "M" (miss) or "?" (neither)
-    /// - Parameter x: UInt64 from ``TagRange`` element
+    /// - Parameter x: UInt64 from ``RangeTag`` element
     public static func HM(_ x: UInt64) -> String {
       x == hit ? "H" : x == miss ? "M" : "?"
     }
@@ -32,7 +41,7 @@ public enum TagOps {
       if lanes < 1 || lanes > (Int.max / 16) { return nil }
 
       @inline(__always)
-      func make(_ tag: Int, _ start: Int, _ end: Int) -> TagRange {
+      func make(_ tag: Int, _ start: Int, _ end: Int) -> RangeTag {
         .make(tag: tag, start: start, end: end)
       }
       let parent = Self.parent
@@ -57,7 +66,7 @@ public enum TagOps {
     }
 
     public mutating func run() {
-      TagRange.maskForTagInRange(
+      RangeTag.maskForTagInRange(
         data: data,
         maskResult: &maskResult,
         targetTag: UInt64(Self.childTag),

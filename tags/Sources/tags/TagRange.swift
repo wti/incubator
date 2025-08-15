@@ -8,7 +8,7 @@
 //
 // Half-open ranges: [start, end)
 @frozen
-public struct TagRange {
+public struct TagRange0 {
   public var raw: UInt64
 
   public static let tagBits: UInt64 = 16
